@@ -1,0 +1,37 @@
+global:
+  external_labels:
+    prometheus: prom-0
+rule_files:
+  - 'rules.yml'
+scrape_configs:
+- job_name: prometheus
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - "localhost:9090"
+    - "localhost:59090"
+    - "localhost:59090"
+    - "localhost:59090"
+- job_name: thanos-sidecar
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - "localhost:10902"
+- job_name: thanos-store
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - "localhost:10906"
+- job_name: thanos-receive
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - "localhost:10909"
+    - "localhost:11909"
+    - "localhost:12909"
+- job_name: thanos-query
+  scrape_interval: 5s
+  static_configs:
+  - targets:
+    - "localhost:10904"
+    - "localhost:10914"

@@ -1,0 +1,24 @@
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false #this is used to enable all service monitors
+    podMonitorSelectorNilUsesHelmValues: false
+    disableCompaction: true
+    retention: 2d # you can change retention period
+    retentionSize: "1GB" #this is used to avoid log storage in pvc and avoid crashing
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: standard #you can change storage type depend on cloud
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi #you can change storage configuration
+    thanos:
+      image: quay.io/thanos/thanos:v0.28.1  #image of thanos to run as sidecar
+      peers: thanos-peers.monitoring.svc:10900
+
+
+# kubectl apply -f querier-deployment.yaml
+# kubectl apply -f querier-service.yaml
+# kubectl apply -f querier-service-monitor.yaml
+# kubectl apply -f thanos-peers-svc.yaml
